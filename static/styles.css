@@ -33,6 +33,15 @@ h1 {
     height: 60vh;
     border: 1px solid #dee2e6;
     border-radius: 0.25rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.chat-messages {
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
 }
 
 .message {
@@ -46,11 +55,26 @@ h1 {
 .user {
     background-color: #007bff;
     color: white;
-    float: right;
+    align-self: flex-end;
 }
 
 .character {
     background-color: #f1f3f5;
     color: #212529;
-    float: left;
+    align-self: flex-start;
+}
+
+.typing {
+    font-style: italic;
+    opacity: 0.7;
+}
+
+#user-input {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+#send-message {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
 }
