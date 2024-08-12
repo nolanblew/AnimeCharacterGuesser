@@ -1,8 +1,12 @@
 document.addEventListener('DOMContentLoaded', function() {
     const startGameButton = document.getElementById('start-game');
-    if (startGameButton) {
+    const animeInput = document.getElementById('anime-search');
+    if (startGameButton && animeInput) {
         startGameButton.addEventListener('click', function() {
-            window.location.href = '/chat';
+            const animeName = animeInput.value.trim();
+            if (animeName) {
+                startGame(animeName);
+            }
         });
     }
 
@@ -19,6 +23,25 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+function startGame(animeName) {
+    fetch('/start_game', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ anime_name: animeName }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            window.location.href = '/chat';
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
 
 function sendMessage() {
     const userInput = document.getElementById('user-input');
@@ -53,6 +76,10 @@ function fetchResponse(message) {
     .then(data => {
         removeTypingIndicator(typingIndicator);
         addMessage('character', data.message);
+        
+        if (data.correct_guess) {
+            addMessage('system', `Congratulations! You've correctly guessed the character: ${data.character_name} from ${data.anime_name}`);
+        }
     })
     .catch(error => {
         console.error('Error:', error);

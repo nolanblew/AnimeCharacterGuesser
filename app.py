@@ -1,8 +1,9 @@
-from flask import Flask, render_template, request, jsonify
-import time
-import random
+from flask import Flask, render_template, request, jsonify, session
+from openai_integration import get_character_response
+import json
 
 app = Flask(__name__)
+app.secret_key = 'your_secret_key_here'  # Replace with a real secret key
 
 @app.route('/')
 def index():
@@ -12,21 +13,41 @@ def index():
 def chat():
     return render_template('chat.html')
 
+@app.route('/start_game', methods=['POST'])
+def start_game():
+    anime_name = request.json['anime_name']
+    # For now, we'll use a placeholder character. In a real implementation,
+    # you'd want to fetch a random character from the specified anime.
+    character_name = "Placeholder Character"
+    
+    session['anime_name'] = anime_name
+    session['character_name'] = character_name
+    
+    return jsonify({'success': True})
+
 @app.route('/send_message', methods=['POST'])
 def send_message():
     user_message = request.json['message']
+    anime_name = session.get('anime_name', 'Unknown Anime')
+    character_name = session.get('character_name', 'Unknown Character')
     
-    # Simulate "typing" delay
-    time.sleep(2)
+    response_json = get_character_response(user_message, anime_name, character_name)
     
-    # Generate a random number between 1 and 100 for the placeholder response
-    random_number = random.randint(1, 100)
-    response = f"Here's a random number between 1 and 100: {random_number}"
-    
-    return jsonify({
-        'message': response,
-        'typing': True
-    })
+    if response_json:
+        response_data = json.loads(response_json)
+        return jsonify({
+            'message': response_data['response'],
+            'correct_guess': response_data['correct_guess'],
+            'anime_name': response_data['anime_name'],
+            'character_name': response_data['character_name']
+        })
+    else:
+        return jsonify({
+            'message': "I'm sorry, I couldn't process your message. Please try again.",
+            'correct_guess': False,
+            'anime_name': anime_name,
+            'character_name': character_name
+        })
 
 if __name__ == '__main__':
     app.run(debug=True)
