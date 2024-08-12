@@ -26,7 +26,7 @@ function sendMessage() {
     if (message) {
         addMessage('user', message);
         userInput.value = '';
-        simulateTyping();
+        fetchResponse(message);
     }
 }
 
@@ -39,18 +39,42 @@ function addMessage(sender, message) {
     scrollToBottom();
 }
 
-function simulateTyping() {
+function fetchResponse(message) {
+    const typingIndicator = addTypingIndicator();
+
+    fetch('/send_message', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ message: message }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        removeTypingIndicator(typingIndicator);
+        addMessage('character', data.message);
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        removeTypingIndicator(typingIndicator);
+        addMessage('character', 'Sorry, there was an error processing your message.');
+    });
+}
+
+function addTypingIndicator() {
     const typingIndicator = document.createElement('div');
     typingIndicator.classList.add('message', 'character', 'typing');
     typingIndicator.textContent = 'Character is typing...';
     const chatContainer = document.querySelector('.chat-container');
     chatContainer.appendChild(typingIndicator);
     scrollToBottom();
+    return typingIndicator;
+}
 
-    setTimeout(() => {
-        chatContainer.removeChild(typingIndicator);
-        addMessage('character', 'This is a placeholder response from the character.');
-    }, 2000);
+function removeTypingIndicator(typingIndicator) {
+    if (typingIndicator && typingIndicator.parentNode) {
+        typingIndicator.parentNode.removeChild(typingIndicator);
+    }
 }
 
 function scrollToBottom() {
