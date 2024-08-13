@@ -35,12 +35,7 @@ def send_message():
     
     if response_json:
         response_data = json.loads(response_json)
-        return jsonify({
-            'message': response_data['response'],
-            'correct_guess': response_data['correct_guess'],
-            'anime_name': response_data['anime_name'],
-            'character_name': response_data['character_name']
-        })
+        return jsonify(response_data)
     else:
         return jsonify({
             'message': "I'm sorry, I couldn't process your message. Please try again.",
