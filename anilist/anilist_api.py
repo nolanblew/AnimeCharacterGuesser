@@ -13,7 +13,7 @@ def fetch_anime_suggestions(search_term):
         return []
 
     variables = {
-        'search': search_term,
+        'search_term': search_term,
         'page': 1,
         'perPage': 5
     }
