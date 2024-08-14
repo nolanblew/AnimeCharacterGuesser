@@ -98,10 +98,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 const li = document.createElement('li');
                 li.className = 'list-group-item d-flex align-items-center';
                 li.innerHTML = `
-                    <img src="${anime.coverImage}" alt="${anime.title}" class="me-3" style="width: 50px; height: 70px; object-fit: cover;">
-                    <div>
-                        <h6 class="mb-0">${anime.title}</h6>
-                        <small class="text-muted">${anime.season} ${anime.seasonYear} | ${anime.format}</small>
+                    <div class="d-flex align-items-center">
+                        <img src="${anime.coverImage}" alt="${anime.title}" class="me-3" style="width: 50px; height: 70px; object-fit: cover;">
+                        <div class="flex-grow-1">
+                            <h6 class="mb-0">${anime.title}</h6>
+                            <small class="text-muted">${anime.season} ${anime.seasonYear} | ${anime.format}</small>
+                        </div>
                     </div>
                 `;
                 li.dataset.animeId = anime.id;
