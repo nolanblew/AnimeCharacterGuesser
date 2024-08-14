@@ -7,6 +7,8 @@ app.secret_key = 'your_secret_key_here'  # Replace with a real secret key
 
 @app.route('/')
 def index():
+    # Clear session variables when returning to the home page
+    session.clear()
     return render_template('index.html')
 
 from flask import redirect, url_for

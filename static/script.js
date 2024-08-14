@@ -138,6 +138,7 @@ function fetchResponse(message) {
             
             if (data.correct_guess) {
                 addMessage('system', `Congratulations! You've correctly guessed the character: ${data.character_name} from ${data.anime_name}`);
+                showStartAgainButton();
             }
         })
         .catch(error => {
@@ -146,6 +147,21 @@ function fetchResponse(message) {
             addMessage('character', 'Sorry, there was an error processing your message.');
         });
     }, 1000); // 1 second delay
+}
+
+function showStartAgainButton() {
+    const inputGroup = document.querySelector('.input-group');
+    inputGroup.style.display = 'none';
+
+    const startAgainButton = document.createElement('button');
+    startAgainButton.textContent = 'Start Again';
+    startAgainButton.classList.add('btn', 'btn-primary', 'btn-lg', 'mt-3', 'd-block', 'mx-auto');
+    startAgainButton.addEventListener('click', () => {
+        window.location.href = '/';
+    });
+
+    const chatContainer = document.querySelector('.chat-container');
+    chatContainer.parentNode.insertBefore(startAgainButton, chatContainer.nextSibling);
 }
 
 function addTypingIndicator() {
