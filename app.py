@@ -78,7 +78,9 @@ def send_message():
 @app.route('/search_anime', methods=['POST'])
 def search_anime():
     search_term = request.json['search_term']
+    app.logger.info(f"Searching for anime with term: {search_term}")
     anime_suggestions = fetch_anime_suggestions(search_term)
+    app.logger.info(f"Received {len(anime_suggestions)} suggestions")
     return jsonify(anime_suggestions)
 
 if __name__ == '__main__':
