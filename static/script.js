@@ -43,6 +43,18 @@ document.addEventListener('DOMContentLoaded', function() {
             animeInput.focus();
         });
 
+        animeInput.addEventListener('focus', function() {
+            if (selectedAnime) {
+                clearButton.style.display = 'block';
+            }
+        });
+
+        animeInput.addEventListener('blur', function() {
+            if (!selectedAnime) {
+                clearButton.style.display = 'none';
+            }
+        });
+
         startGameButton.addEventListener('click', function() {
             if (selectedAnime) {
                 startGame(selectedAnime);
