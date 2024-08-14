@@ -27,14 +27,17 @@ def start_game():
     
     session['anime_name'] = anime_name
     session['character_name'] = character_name
+    session['conversation_history'] = []
     
     # Generate an initial greeting
-    initial_greeting = get_character_response("Start the game with a greeting", anime_name, character_name)
+    initial_greeting = get_character_response("Start the game with a greeting", anime_name, character_name, [])
     if initial_greeting:
         greeting_data = json.loads(initial_greeting)
         session['initial_greeting'] = greeting_data['response']
+        session['conversation_history'].append({"role": "assistant", "content": greeting_data['response']})
     else:
         session['initial_greeting'] = "Hello! I'm excited to play this game with you!"
+        session['conversation_history'].append({"role": "assistant", "content": session['initial_greeting']})
     
     return jsonify({'success': True})
 
@@ -47,15 +50,25 @@ def send_message():
     user_message = request.json['message']
     anime_name = session.get('anime_name', 'Unknown Anime')
     character_name = session.get('character_name', 'Unknown Character')
+    conversation_history = session.get('conversation_history', [])
     
-    response_json = get_character_response(user_message, anime_name, character_name)
+    # Add user message to conversation history
+    conversation_history.append({"role": "user", "content": user_message})
+    
+    response_json = get_character_response(user_message, anime_name, character_name, conversation_history)
     
     if response_json:
         response_data = json.loads(response_json)
+        # Add assistant's response to conversation history
+        conversation_history.append({"role": "assistant", "content": response_data['response']})
+        session['conversation_history'] = conversation_history
         return jsonify(response_data)
     else:
+        error_message = "I'm sorry, I couldn't process your message. Please try again."
+        conversation_history.append({"role": "assistant", "content": error_message})
+        session['conversation_history'] = conversation_history
         return jsonify({
-            'message': "I'm sorry, I couldn't process your message. Please try again.",
+            'message': error_message,
             'correct_guess': False,
             'anime_name': anime_name,
             'character_name': character_name

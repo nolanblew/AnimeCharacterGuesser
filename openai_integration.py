@@ -9,14 +9,22 @@ load_dotenv()
 # Set up the OpenAI API client
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-def get_character_response(user_message, anime_name, character_name):
+def get_character_response(user_message, anime_name, character_name, conversation_history):
     try:
+        # Prepare the messages for the API call
+        messages = [
+            {"role": "system", "content": f"You are a character from the anime '{anime_name}'. Your name is {character_name}. You will be texting back and forth with the user, and playing a game where the user has to guess your name. Please give the user clues, but do not reveal your identity. You ARE the character, so do your best to act as the character would with the limited knowledge they might have in their perspective. Provide your response in JSON format."}
+        ]
+        
+        # Add the conversation history
+        messages.extend(conversation_history)
+        
+        # Add the latest user message
+        messages.append({"role": "user", "content": user_message})
+        
         response = client.chat.completions.create(
             model="gpt-4o-mini",  # Use an available model, adjust as needed
-            messages=[
-                {"role": "system", "content": f"You are a character from the anime '{anime_name}'. Your name is {character_name}. You will be texting back and forth with the user, and playing a game where the user has to guess your name. Please give the user clues, but do not reveal your identity. You ARE the character, so do your best to act as the character would with the limited knowledge they might have in their perspective. Provide your response in JSON format."},
-                {"role": "user", "content": user_message}
-            ],
+            messages=messages,
             functions=[
                 {
                     "name": "get_character_response",
