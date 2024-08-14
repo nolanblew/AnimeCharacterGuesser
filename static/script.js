@@ -155,7 +155,7 @@ function showStartAgainButton() {
 
     const startAgainButton = document.createElement('button');
     startAgainButton.textContent = 'Start Again';
-    startAgainButton.classList.add('btn', 'btn-primary', 'btn-lg', 'mt-3', 'd-block', 'mx-auto');
+    startAgainButton.classList.add('btn', 'btn-primary', 'btn-lg', 'mt-4', 'mb-3', 'px-4', 'py-2', 'd-block', 'mx-auto');
     startAgainButton.addEventListener('click', () => {
         window.location.href = '/';
     });
