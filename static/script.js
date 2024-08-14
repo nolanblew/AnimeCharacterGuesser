@@ -102,9 +102,23 @@ function sendMessage() {
     if (message) {
         addMessage('user', message);
         userInput.value = '';
+        userInput.style.height = 'auto';
         fetchResponse(message);
     }
 }
+
+function autoResizeTextarea() {
+    const textarea = document.getElementById('user-input');
+    textarea.style.height = 'auto';
+    textarea.style.height = textarea.scrollHeight + 'px';
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const userInput = document.getElementById('user-input');
+    if (userInput) {
+        userInput.addEventListener('input', autoResizeTextarea);
+    }
+});
 
 function addMessage(sender, message) {
     const chatContainer = document.querySelector('.chat-container');
