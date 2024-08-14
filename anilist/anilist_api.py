@@ -9,7 +9,7 @@ def fetch_anime_suggestions(search_term):
     variables = {
         'search': search_term,
         'page': 1,
-        'perPage': 10
+        'perPage': 5
     }
 
     response = requests.post(url, json={'query': query, 'variables': variables})
