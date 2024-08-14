@@ -102,14 +102,14 @@ function sendMessage() {
     if (message) {
         addMessage('user', message);
         userInput.value = '';
-        userInput.style.height = 'auto';
+        userInput.style.height = '38px'; // Reset to initial height
         fetchResponse(message);
     }
 }
 
 function autoResizeTextarea() {
     const textarea = document.getElementById('user-input');
-    textarea.style.height = 'auto';
+    textarea.style.height = '38px'; // Reset to initial height
     textarea.style.height = textarea.scrollHeight + 'px';
 }
 
@@ -117,6 +117,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const userInput = document.getElementById('user-input');
     if (userInput) {
         userInput.addEventListener('input', autoResizeTextarea);
+        userInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault(); // Prevent default newline
+                sendMessage();
+            }
+        });
     }
 });
 
