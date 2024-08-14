@@ -25,7 +25,7 @@ def start_game():
     anime_name = request.json['anime_name']
     # For now, we'll use a placeholder character. In a real implementation,
     # you'd want to fetch a random character from the specified anime.
-    character_name = "Taiga Aisaka"
+    character_name = "Kirino Kousaka"
     
     session['anime_name'] = anime_name
     session['character_name'] = character_name
