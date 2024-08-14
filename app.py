@@ -23,7 +23,19 @@ def start_game():
     session['anime_name'] = anime_name
     session['character_name'] = character_name
     
+    # Generate an initial greeting
+    initial_greeting = get_character_response("Start the game with a greeting", anime_name, character_name)
+    if initial_greeting:
+        greeting_data = json.loads(initial_greeting)
+        session['initial_greeting'] = greeting_data['response']
+    else:
+        session['initial_greeting'] = "Hello! I'm excited to play this game with you!"
+    
     return jsonify({'success': True})
+
+@app.route('/get_initial_greeting', methods=['GET'])
+def get_initial_greeting():
+    return jsonify({'message': session.get('initial_greeting', "Hello! I'm excited to play this game with you!")})
 
 @app.route('/send_message', methods=['POST'])
 def send_message():

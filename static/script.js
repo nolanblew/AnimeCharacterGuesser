@@ -21,6 +21,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 sendMessage();
             }
         });
+
+        // Fetch and display the initial greeting
+        fetch('/get_initial_greeting')
+            .then(response => response.json())
+            .then(data => {
+                if (data.message) {
+                    addMessage('character', data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching initial greeting:', error);
+            });
     }
 });
 
@@ -36,6 +48,10 @@ function startGame(animeName) {
     .then(data => {
         if (data.success) {
             window.location.href = '/chat';
+            // After redirecting, we need to wait for the page to load before sending the initial message
+            window.addEventListener('load', function() {
+                fetchResponse('Hello! I\'m excited to play this game!');
+            });
         }
     })
     .catch(error => {
@@ -75,7 +91,11 @@ function fetchResponse(message) {
     .then(response => response.json())
     .then(data => {
         removeTypingIndicator(typingIndicator);
-        addMessage('character', data.message);
+        if (data.response) {
+            addMessage('character', data.response);
+        } else {
+            addMessage('character', 'Sorry, there was an error processing your message.');
+        }
         
         if (data.correct_guess) {
             addMessage('system', `Congratulations! You've correctly guessed the character: ${data.character_name} from ${data.anime_name}`);
