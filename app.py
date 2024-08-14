@@ -1,5 +1,6 @@
-from flask import Flask, render_template, request, jsonify, session
+from flask import Flask, render_template, request, jsonify, session, redirect, url_for
 from openai_integration import get_character_response
+from anilist.anilist_api import fetch_anime_suggestions
 import json
 
 app = Flask(__name__)
@@ -10,8 +11,6 @@ def index():
     # Clear session variables when returning to the home page
     session.clear()
     return render_template('index.html')
-
-from flask import redirect, url_for
 
 @app.route('/chat')
 def chat():
@@ -75,6 +74,12 @@ def send_message():
             'anime_name': anime_name,
             'character_name': character_name
         })
+
+@app.route('/search_anime', methods=['POST'])
+def search_anime():
+    search_term = request.json['search_term']
+    anime_suggestions = fetch_anime_suggestions(search_term)
+    return jsonify(anime_suggestions)
 
 if __name__ == '__main__':
     app.run(debug=True)

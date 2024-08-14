@@ -11,10 +11,20 @@ document.addEventListener('DOMContentLoaded', function() {
         animeInput.addEventListener('input', debounce(function(event) {
             const searchTerm = event.target.value.trim();
             if (searchTerm.length > 2) {
-                // For now, we'll use sample data
-                const sampleAnimes = ['Naruto', 'One Piece', 'Attack on Titan', 'My Hero Academia', 'Death Note'];
-                const filteredAnimes = sampleAnimes.filter(anime => anime.toLowerCase().includes(searchTerm.toLowerCase()));
-                displaySuggestions(filteredAnimes);
+                fetch('/search_anime', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ search_term: searchTerm }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    displaySuggestions(data);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
             } else {
                 animeSuggestions.style.display = 'none';
             }
