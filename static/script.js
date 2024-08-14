@@ -7,8 +7,8 @@ document.addEventListener('DOMContentLoaded', function() {
     if (startGameButton && animeInput && animeSuggestions && spinner) {
         let selectedAnime = '';
 
-        animeInput.addEventListener('input', debounce(function() {
-            const searchTerm = this.value ? this.value.trim() : '';
+        animeInput.addEventListener('input', debounce(function(event) {
+            const searchTerm = event.target.value.trim();
             console.log('Search term:', searchTerm); // Debug log
             if (searchTerm.length > 2) {
                 // For now, we'll use sample data
@@ -69,6 +69,7 @@ document.addEventListener('DOMContentLoaded', function() {
             animeSuggestions.style.display = 'none';
         }
         console.log('Suggestions display:', animeSuggestions.style.display); // Debug log
+        console.log('Suggestions HTML:', animeSuggestions.innerHTML); // Additional debug log
     }
 
     const sendMessageButton = document.getElementById('send-message');
