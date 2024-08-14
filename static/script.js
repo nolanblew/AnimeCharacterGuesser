@@ -22,19 +22,50 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
+        // Show loading screen
+        showLoadingScreen();
+
         // Fetch and display the initial greeting
         fetch('/get_initial_greeting')
             .then(response => response.json())
             .then(data => {
+                // Hide loading screen
+                hideLoadingScreen();
                 if (data.message) {
                     addMessage('character', data.message);
                 }
             })
             .catch(error => {
                 console.error('Error fetching initial greeting:', error);
+                // Hide loading screen even if there's an error
+                hideLoadingScreen();
             });
     }
 });
+
+function showLoadingScreen() {
+    const loadingScreen = document.createElement('div');
+    loadingScreen.id = 'loading-screen';
+    loadingScreen.innerHTML = '<div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div>';
+    loadingScreen.style.position = 'fixed';
+    loadingScreen.style.top = '0';
+    loadingScreen.style.left = '0';
+    loadingScreen.style.width = '100%';
+    loadingScreen.style.height = '100%';
+    loadingScreen.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
+    loadingScreen.style.display = 'flex';
+    loadingScreen.style.justifyContent = 'center';
+    loadingScreen.style.alignItems = 'center';
+    loadingScreen.style.zIndex = '1000';
+    document.body.appendChild(loadingScreen);
+}
+
+function hideLoadingScreen() {
+    const loadingScreen = document.getElementById('loading-screen');
+    if (loadingScreen) {
+        loadingScreen.remove();
+    }
+}
 
 function startGame(animeName) {
     fetch('/start_game', {
@@ -79,33 +110,36 @@ function addMessage(sender, message) {
 }
 
 function fetchResponse(message) {
-    const typingIndicator = addTypingIndicator();
+    // Delay adding the typing indicator by 1 second
+    setTimeout(() => {
+        const typingIndicator = addTypingIndicator();
 
-    fetch('/send_message', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ message: message }),
-    })
-    .then(response => response.json())
-    .then(data => {
-        removeTypingIndicator(typingIndicator);
-        if (data.response) {
-            addMessage('character', data.response);
-        } else {
+        fetch('/send_message', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ message: message }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            removeTypingIndicator(typingIndicator);
+            if (data.response) {
+                addMessage('character', data.response);
+            } else {
+                addMessage('character', 'Sorry, there was an error processing your message.');
+            }
+            
+            if (data.correct_guess) {
+                addMessage('system', `Congratulations! You've correctly guessed the character: ${data.character_name} from ${data.anime_name}`);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            removeTypingIndicator(typingIndicator);
             addMessage('character', 'Sorry, there was an error processing your message.');
-        }
-        
-        if (data.correct_guess) {
-            addMessage('system', `Congratulations! You've correctly guessed the character: ${data.character_name} from ${data.anime_name}`);
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        removeTypingIndicator(typingIndicator);
-        addMessage('character', 'Sorry, there was an error processing your message.');
-    });
+        });
+    }, 1000); // 1 second delay
 }
 
 function addTypingIndicator() {
