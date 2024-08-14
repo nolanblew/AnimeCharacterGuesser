@@ -8,17 +8,14 @@ document.addEventListener('DOMContentLoaded', function() {
         let selectedAnime = '';
 
         animeInput.addEventListener('input', debounce(function() {
-            if (this.value) {
-                const searchTerm = this.value.trim();
-                if (searchTerm.length > 2) {
-                    // For now, we'll use sample data
-                    const sampleAnimes = ['Naruto', 'One Piece', 'Attack on Titan', 'My Hero Academia', 'Death Note'];
-                    const filteredAnimes = sampleAnimes.filter(anime => anime.toLowerCase().includes(searchTerm.toLowerCase()));
-                    
-                    displaySuggestions(filteredAnimes);
-                } else {
-                    animeSuggestions.style.display = 'none';
-                }
+            const searchTerm = this.value ? this.value.trim() : '';
+            console.log('Search term:', searchTerm); // Debug log
+            if (searchTerm.length > 2) {
+                // For now, we'll use sample data
+                const sampleAnimes = ['Naruto', 'One Piece', 'Attack on Titan', 'My Hero Academia', 'Death Note'];
+                const filteredAnimes = sampleAnimes.filter(anime => anime.toLowerCase().includes(searchTerm.toLowerCase()));
+                console.log('Filtered animes:', filteredAnimes); // Debug log
+                displaySuggestions(filteredAnimes);
             } else {
                 animeSuggestions.style.display = 'none';
             }
@@ -58,6 +55,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function displaySuggestions(animes) {
+        console.log('Displaying suggestions:', animes); // Debug log
         animeSuggestions.innerHTML = '';
         if (animes.length > 0) {
             animes.forEach(anime => {
@@ -70,6 +68,7 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             animeSuggestions.style.display = 'none';
         }
+        console.log('Suggestions display:', animeSuggestions.style.display); // Debug log
     }
 
     const sendMessageButton = document.getElementById('send-message');
