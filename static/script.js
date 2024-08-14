@@ -8,13 +8,17 @@ document.addEventListener('DOMContentLoaded', function() {
         let selectedAnime = '';
 
         animeInput.addEventListener('input', debounce(function() {
-            const searchTerm = this.value.trim();
-            if (searchTerm.length > 2) {
-                // For now, we'll use sample data
-                const sampleAnimes = ['Naruto', 'One Piece', 'Attack on Titan', 'My Hero Academia', 'Death Note'];
-                const filteredAnimes = sampleAnimes.filter(anime => anime.toLowerCase().includes(searchTerm.toLowerCase()));
-                
-                displaySuggestions(filteredAnimes);
+            if (this.value) {
+                const searchTerm = this.value.trim();
+                if (searchTerm.length > 2) {
+                    // For now, we'll use sample data
+                    const sampleAnimes = ['Naruto', 'One Piece', 'Attack on Titan', 'My Hero Academia', 'Death Note'];
+                    const filteredAnimes = sampleAnimes.filter(anime => anime.toLowerCase().includes(searchTerm.toLowerCase()));
+                    
+                    displaySuggestions(filteredAnimes);
+                } else {
+                    animeSuggestions.style.display = 'none';
+                }
             } else {
                 animeSuggestions.style.display = 'none';
             }
