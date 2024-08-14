@@ -108,16 +108,21 @@ h1 {
 }
 
 #anime-suggestions {
-    max-height: 200px;
+    max-height: 300px;
     overflow-y: auto;
 }
 
 #anime-suggestions .list-group-item {
     cursor: pointer;
+    transition: background-color 0.2s ease;
 }
 
 #anime-suggestions .list-group-item:hover {
     background-color: #f8f9fa;
+}
+
+#anime-suggestions img {
+    border-radius: 4px;
 }
 
 #clear-anime {

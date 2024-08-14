@@ -32,7 +32,15 @@ def fetch_anime_suggestions(search_term):
     if data and 'data' in data and 'Page' in data['data'] and 'media' in data['data']['Page']:
         for anime in data['data']['Page']['media']:
             title = anime['title']['english'] or anime['title']['romaji']
-            anime_list.append(title)
+            anime_info = {
+                'id': anime['id'],
+                'title': title,
+                'coverImage': anime['coverImage']['medium'],
+                'season': anime['season'],
+                'seasonYear': anime['seasonYear'],
+                'format': anime['format']
+            }
+            anime_list.append(anime_info)
     else:
         logging.warning(f"Unexpected API response structure: {json.dumps(data, indent=2)}")
 

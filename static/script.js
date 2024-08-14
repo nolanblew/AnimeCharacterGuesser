@@ -34,8 +34,9 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('Event listener added to animeInput');
 
         animeSuggestions.addEventListener('click', function(e) {
-            if (e.target && e.target.nodeName === 'LI') {
-                selectedAnime = e.target.textContent;
+            const li = e.target.closest('li');
+            if (li) {
+                selectedAnime = li.querySelector('h6').textContent;
                 animeInput.value = selectedAnime;
                 animeInput.readOnly = true;
                 animeSuggestions.style.display = 'none';
@@ -91,20 +92,24 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function displaySuggestions(animes) {
-        console.log('Displaying suggestions:', animes); // Log the animes being displayed
         animeSuggestions.innerHTML = '';
         if (animes.length > 0) {
             animes.forEach(anime => {
                 const li = document.createElement('li');
-                li.textContent = anime;
-                li.className = 'list-group-item';
+                li.className = 'list-group-item d-flex align-items-center';
+                li.innerHTML = `
+                    <img src="${anime.coverImage}" alt="${anime.title}" class="me-3" style="width: 50px; height: 70px; object-fit: cover;">
+                    <div>
+                        <h6 class="mb-0">${anime.title}</h6>
+                        <small class="text-muted">${anime.season} ${anime.seasonYear} | ${anime.format}</small>
+                    </div>
+                `;
+                li.dataset.animeId = anime.id;
                 animeSuggestions.appendChild(li);
             });
             animeSuggestions.style.display = 'block';
-            console.log('Suggestions displayed'); // Log when suggestions are displayed
         } else {
             animeSuggestions.style.display = 'none';
-            console.log('No suggestions to display'); // Log when there are no suggestions
         }
     }
 
