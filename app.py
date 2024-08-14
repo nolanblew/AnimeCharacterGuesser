@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, jsonify, session, redirect, url_for
 from openai_integration import get_character_response
-from anilist.anilist_api import fetch_anime_suggestions
+from anilist.anilist_api import fetch_anime_suggestions, fetch_characters
 import json
 
 app = Flask(__name__)
