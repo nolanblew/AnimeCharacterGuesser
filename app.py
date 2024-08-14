@@ -9,8 +9,13 @@ app.secret_key = 'your_secret_key_here'  # Replace with a real secret key
 def index():
     return render_template('index.html')
 
+from flask import redirect, url_for
+
 @app.route('/chat')
 def chat():
+    if 'anime_name' not in session or 'character_name' not in session:
+        # If the required session data is not present, redirect to the home page
+        return redirect(url_for('index'))
     return render_template('chat.html')
 
 @app.route('/start_game', methods=['POST'])
