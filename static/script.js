@@ -172,22 +172,50 @@ function hideLoadingScreen() {
     }
 }
 
-function startGame(animeName) {
+function startGame(animeName, animeId) {
     fetch('/start_game', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ anime_name: animeName }),
+        body: JSON.stringify({ anime_name: animeName, anime_id: animeId }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            window.location.href = '/select_character';
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const characterGrid = document.getElementById('character-grid');
+    if (characterGrid) {
+        characterGrid.addEventListener('click', function(e) {
+            const card = e.target.closest('.character-card');
+            if (card) {
+                const characterName = card.dataset.characterName;
+                selectCharacter(characterName);
+            }
+        });
+    }
+});
+
+function selectCharacter(characterName) {
+    fetch('/set_character', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ character_name: characterName }),
     })
     .then(response => response.json())
     .then(data => {
         if (data.success) {
             window.location.href = '/chat';
-            // After redirecting, we need to wait for the page to load before sending the initial message
-            window.addEventListener('load', function() {
-                fetchResponse('Hello! I\'m excited to play this game!');
-            });
         }
     })
     .catch(error => {

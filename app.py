@@ -22,16 +22,27 @@ def chat():
 @app.route('/start_game', methods=['POST'])
 def start_game():
     anime_name = request.json['anime_name']
-    # For now, we'll use a placeholder character. In a real implementation,
-    # you'd want to fetch a random character from the specified anime.
-    character_name = "Kirino Kousaka"
-    
+    anime_id = request.json['anime_id']
     session['anime_name'] = anime_name
+    session['anime_id'] = anime_id
+    return jsonify({'success': True})
+
+@app.route('/select_character')
+def select_character():
+    anime_id = session.get('anime_id')
+    if not anime_id:
+        return redirect(url_for('index'))
+    characters = fetch_characters(anime_id)
+    return render_template('select_character.html', characters=characters)
+
+@app.route('/set_character', methods=['POST'])
+def set_character():
+    character_name = request.json['character_name']
     session['character_name'] = character_name
     session['conversation_history'] = []
     
     # Generate an initial greeting
-    initial_greeting = get_character_response("Start the game with a greeting", anime_name, character_name, [])
+    initial_greeting = get_character_response("Start the game with a greeting", session['anime_name'], character_name, [])
     if initial_greeting:
         greeting_data = json.loads(initial_greeting)
         session['initial_greeting'] = greeting_data['response']
