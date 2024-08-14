@@ -3,18 +3,17 @@ document.addEventListener('DOMContentLoaded', function() {
     const animeInput = document.getElementById('anime-search');
     const animeSuggestions = document.getElementById('anime-suggestions');
     const spinner = document.getElementById('spinner');
+    const clearButton = document.getElementById('clear-anime');
 
-    if (startGameButton && animeInput && animeSuggestions && spinner) {
+    if (startGameButton && animeInput && animeSuggestions && spinner && clearButton) {
         let selectedAnime = '';
 
         animeInput.addEventListener('input', debounce(function(event) {
             const searchTerm = event.target.value.trim();
-            console.log('Search term:', searchTerm); // Debug log
             if (searchTerm.length > 2) {
                 // For now, we'll use sample data
                 const sampleAnimes = ['Naruto', 'One Piece', 'Attack on Titan', 'My Hero Academia', 'Death Note'];
                 const filteredAnimes = sampleAnimes.filter(anime => anime.toLowerCase().includes(searchTerm.toLowerCase()));
-                console.log('Filtered animes:', filteredAnimes); // Debug log
                 displaySuggestions(filteredAnimes);
             } else {
                 animeSuggestions.style.display = 'none';
@@ -25,9 +24,20 @@ document.addEventListener('DOMContentLoaded', function() {
             if (e.target && e.target.nodeName === 'LI') {
                 selectedAnime = e.target.textContent;
                 animeInput.value = selectedAnime;
+                animeInput.readOnly = true;
                 animeSuggestions.style.display = 'none';
                 startGameButton.disabled = false;
+                clearButton.style.display = 'block';
             }
+        });
+
+        clearButton.addEventListener('click', function() {
+            animeInput.value = '';
+            animeInput.readOnly = false;
+            selectedAnime = '';
+            startGameButton.disabled = true;
+            clearButton.style.display = 'none';
+            animeInput.focus();
         });
 
         startGameButton.addEventListener('click', function() {
@@ -38,6 +48,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 startGameButton.disabled = true;
                 startGameButton.style.display = 'none';
                 spinner.style.display = 'inline-block';
+                clearButton.style.display = 'none';
             }
         });
     }
@@ -55,7 +66,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function displaySuggestions(animes) {
-        console.log('Displaying suggestions:', animes); // Debug log
         animeSuggestions.innerHTML = '';
         if (animes.length > 0) {
             animes.forEach(anime => {
@@ -68,8 +78,6 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             animeSuggestions.style.display = 'none';
         }
-        console.log('Suggestions display:', animeSuggestions.style.display); // Debug log
-        console.log('Suggestions HTML:', animeSuggestions.innerHTML); // Additional debug log
     }
 
     const sendMessageButton = document.getElementById('send-message');

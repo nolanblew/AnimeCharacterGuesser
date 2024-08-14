@@ -119,3 +119,23 @@ h1 {
 #anime-suggestions .list-group-item:hover {
     background-color: #f8f9fa;
 }
+
+#clear-anime {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 3;
+    border: none;
+    background: transparent;
+    padding: 0 15px;
+}
+
+#clear-anime:hover {
+    color: #dc3545;
+}
+
+#anime-search[readonly] {
+    background-color: #e9ecef;
+    cursor: default;
+}
