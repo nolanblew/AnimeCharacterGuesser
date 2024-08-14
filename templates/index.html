@@ -6,6 +6,7 @@
     <title>Character Guesser</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="https://unpkg.com/feather-icons"></script>
 </head>
 <body class="bg-light">
     <div class="container-fluid min-vh-100 d-flex align-items-center justify-content-center">
@@ -15,8 +16,8 @@
                 <div class="mb-3 position-relative">
                     <div class="input-group mb-3">
                         <input type="text" class="form-control form-control-lg" id="anime-search" placeholder="Search for an anime or TV show...">
-                        <button class="btn btn-outline-secondary" type="button" id="clear-anime" style="display: none;">
-                            <i class="fas fa-times"></i>
+                        <button class="btn btn-outline-secondary d-flex align-items-center justify-content-center" type="button" id="clear-anime" style="display: none;">
+                            <i data-feather="x"></i>
                         </button>
                     </div>
                     <ul class="list-group position-absolute w-100" id="anime-suggestions" style="display: none; z-index: 1000;"></ul>
@@ -30,5 +31,8 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script>
+        feather.replace();
+    </script>
 </body>
 </html>
