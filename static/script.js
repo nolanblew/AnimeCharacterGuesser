@@ -20,6 +20,9 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }, 300));
 
+        // Log for debugging
+        console.log('Event listener added to animeInput');
+
         animeSuggestions.addEventListener('click', function(e) {
             if (e.target && e.target.nodeName === 'LI') {
                 selectedAnime = e.target.textContent;
@@ -66,6 +69,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function displaySuggestions(animes) {
+        console.log('Displaying suggestions:', animes); // Log the animes being displayed
         animeSuggestions.innerHTML = '';
         if (animes.length > 0) {
             animes.forEach(anime => {
@@ -75,8 +79,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 animeSuggestions.appendChild(li);
             });
             animeSuggestions.style.display = 'block';
+            console.log('Suggestions displayed'); // Log when suggestions are displayed
         } else {
             animeSuggestions.style.display = 'none';
+            console.log('No suggestions to display'); // Log when there are no suggestions
         }
     }
 
