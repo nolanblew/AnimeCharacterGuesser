@@ -1,11 +1,17 @@
 document.addEventListener('DOMContentLoaded', function() {
     const startGameButton = document.getElementById('start-game');
     const animeInput = document.getElementById('anime-search');
-    if (startGameButton && animeInput) {
+    const spinner = document.getElementById('spinner');
+    if (startGameButton && animeInput && spinner) {
         startGameButton.addEventListener('click', function() {
             const animeName = animeInput.value.trim();
             if (animeName) {
                 startGame(animeName);
+                // Disable input and button, show spinner
+                animeInput.disabled = true;
+                startGameButton.disabled = true;
+                startGameButton.style.display = 'none';
+                spinner.style.display = 'inline-block';
             }
         });
     }
