@@ -12,9 +12,10 @@
         <div class="card shadow-lg rounded-4 p-4">
             <div class="card-body text-center">
                 <h1 class="mb-4">Character Guesser</h1>
-                <div class="mb-3">
-                    <input type="text" class="form-control form-control-lg mb-3" id="anime-search" placeholder="Enter an anime or TV show...">
-                    <button class="btn btn-primary btn-lg w-100" id="start-game">Start Game</button>
+                <div class="mb-3 position-relative">
+                    <input type="text" class="form-control form-control-lg mb-3" id="anime-search" placeholder="Search for an anime or TV show...">
+                    <ul class="list-group position-absolute w-100" id="anime-suggestions" style="display: none; z-index: 1000;"></ul>
+                    <button class="btn btn-primary btn-lg w-100" id="start-game" disabled>Start Game</button>
                     <div class="spinner-border text-primary mt-3" role="status" id="spinner" style="display: none;">
                         <span class="visually-hidden">Loading...</span>
                     </div>

@@ -1,12 +1,37 @@
 document.addEventListener('DOMContentLoaded', function() {
     const startGameButton = document.getElementById('start-game');
     const animeInput = document.getElementById('anime-search');
+    const animeSuggestions = document.getElementById('anime-suggestions');
     const spinner = document.getElementById('spinner');
-    if (startGameButton && animeInput && spinner) {
+
+    if (startGameButton && animeInput && animeSuggestions && spinner) {
+        let selectedAnime = '';
+
+        animeInput.addEventListener('input', debounce(function() {
+            const searchTerm = this.value.trim();
+            if (searchTerm.length > 2) {
+                // For now, we'll use sample data
+                const sampleAnimes = ['Naruto', 'One Piece', 'Attack on Titan', 'My Hero Academia', 'Death Note'];
+                const filteredAnimes = sampleAnimes.filter(anime => anime.toLowerCase().includes(searchTerm.toLowerCase()));
+                
+                displaySuggestions(filteredAnimes);
+            } else {
+                animeSuggestions.style.display = 'none';
+            }
+        }, 300));
+
+        animeSuggestions.addEventListener('click', function(e) {
+            if (e.target && e.target.nodeName === 'LI') {
+                selectedAnime = e.target.textContent;
+                animeInput.value = selectedAnime;
+                animeSuggestions.style.display = 'none';
+                startGameButton.disabled = false;
+            }
+        });
+
         startGameButton.addEventListener('click', function() {
-            const animeName = animeInput.value.trim();
-            if (animeName) {
-                startGame(animeName);
+            if (selectedAnime) {
+                startGame(selectedAnime);
                 // Disable input and button, show spinner
                 animeInput.disabled = true;
                 startGameButton.disabled = true;
@@ -14,6 +39,33 @@ document.addEventListener('DOMContentLoaded', function() {
                 spinner.style.display = 'inline-block';
             }
         });
+    }
+
+    function debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func(...args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
+    }
+
+    function displaySuggestions(animes) {
+        animeSuggestions.innerHTML = '';
+        if (animes.length > 0) {
+            animes.forEach(anime => {
+                const li = document.createElement('li');
+                li.textContent = anime;
+                li.className = 'list-group-item';
+                animeSuggestions.appendChild(li);
+            });
+            animeSuggestions.style.display = 'block';
+        } else {
+            animeSuggestions.style.display = 'none';
+        }
     }
 
     const sendMessageButton = document.getElementById('send-message');

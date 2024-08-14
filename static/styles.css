@@ -106,3 +106,16 @@ h1 {
         font-size: 16px; /* Prevent zoom on mobile */
     }
 }
+
+#anime-suggestions {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+#anime-suggestions .list-group-item {
+    cursor: pointer;
+}
+
+#anime-suggestions .list-group-item:hover {
+    background-color: #f8f9fa;
+}
