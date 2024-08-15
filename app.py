@@ -32,11 +32,12 @@ def start_game():
 @app.route('/select_character')
 def select_character():
     anime_id = session.get('anime_id')
-    if not anime_id:
+    anime_name = session.get('anime_name')
+    if not anime_id or not anime_name:
         return redirect(url_for('index'))
     characters, anime_description = fetch_characters(anime_id)
     session['anime_description'] = anime_description
-    return render_template('select_character.html', characters=characters)
+    return render_template('select_character.html', characters=characters, anime_name=anime_name)
 
 @app.route('/set_character', methods=['POST'])
 def set_character():

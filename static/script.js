@@ -296,7 +296,7 @@ function fetchResponse(message) {
             
             if (data.correct_guess) {
                 addMessage('system', `Congratulations! You've correctly guessed the character: ${data.character_name} from ${data.anime_name}`);
-                showStartAgainButton();
+                showGameOptions();
             }
         })
         .catch(error => {
@@ -307,19 +307,32 @@ function fetchResponse(message) {
     }, 1000); // 1 second delay
 }
 
-function showStartAgainButton() {
+function showGameOptions() {
     const inputGroup = document.querySelector('.input-group');
     inputGroup.style.display = 'none';
 
-    const startAgainButton = document.createElement('button');
-    startAgainButton.textContent = 'Start Again';
-    startAgainButton.classList.add('btn', 'btn-primary', 'btn-lg', 'mt-4', 'mb-3', 'px-4', 'py-2', 'd-block', 'mx-auto');
-    startAgainButton.addEventListener('click', () => {
+    const optionsContainer = document.createElement('div');
+    optionsContainer.classList.add('d-flex', 'justify-content-center', 'mt-4', 'mb-3');
+
+    const newAnimeButton = document.createElement('button');
+    newAnimeButton.textContent = 'Select New Anime';
+    newAnimeButton.classList.add('btn', 'btn-primary', 'btn-lg', 'mx-2');
+    newAnimeButton.addEventListener('click', () => {
         window.location.href = '/';
     });
 
+    const newCharacterButton = document.createElement('button');
+    newCharacterButton.textContent = 'Select New Character';
+    newCharacterButton.classList.add('btn', 'btn-secondary', 'btn-lg', 'mx-2');
+    newCharacterButton.addEventListener('click', () => {
+        window.location.href = '/select_character';
+    });
+
+    optionsContainer.appendChild(newAnimeButton);
+    optionsContainer.appendChild(newCharacterButton);
+
     const chatContainer = document.querySelector('.chat-container');
-    chatContainer.parentNode.insertBefore(startAgainButton, chatContainer.nextSibling);
+    chatContainer.parentNode.insertBefore(optionsContainer, chatContainer.nextSibling);
 }
 
 function addTypingIndicator() {
