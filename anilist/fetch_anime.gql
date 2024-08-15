@@ -15,6 +15,7 @@ query($search_term:String!, $page:Int = 1, $per_page:Int = 5) {
       season
       seasonYear
       format
+      description
     }
   }
 }

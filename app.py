@@ -23,8 +23,10 @@ def chat():
 def start_game():
     anime_name = request.json['anime_name']
     anime_id = request.json['anime_id']
+    anime_description = request.json['anime_description']
     session['anime_name'] = anime_name
     session['anime_id'] = anime_id
+    session['anime_description'] = anime_description
     return jsonify({'success': True})
 
 @app.route('/select_character')
@@ -32,17 +34,20 @@ def select_character():
     anime_id = session.get('anime_id')
     if not anime_id:
         return redirect(url_for('index'))
-    characters = fetch_characters(anime_id)
+    characters, anime_description = fetch_characters(anime_id)
+    session['anime_description'] = anime_description
     return render_template('select_character.html', characters=characters)
 
 @app.route('/set_character', methods=['POST'])
 def set_character():
     character_name = request.json['character_name']
+    character_description = request.json['character_description']
     session['character_name'] = character_name
+    session['character_description'] = character_description
     session['conversation_history'] = []
     
     # Generate an initial greeting
-    initial_greeting = get_character_response("Start the game with a greeting", session['anime_name'], character_name, [])
+    initial_greeting = get_character_response("Start the game with a greeting", session['anime_name'], character_name, [], session['anime_description'], character_description)
     if initial_greeting:
         greeting_data = json.loads(initial_greeting)
         session['initial_greeting'] = greeting_data['response']

@@ -1,5 +1,6 @@
 query($anime_id:Int!, $page:Int = 1, $per_page:Int = 10) {
   Media(id: $anime_id) {
+    description
     characters(page: $page, perPage:$per_page, sort:FAVOURITES_DESC) {
       pageInfo{
         total

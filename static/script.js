@@ -175,13 +175,13 @@ function hideLoadingScreen() {
     }
 }
 
-function startGame(animeName, animeId) {
+function startGame(animeName, animeId, animeDescription) {
     fetch('/start_game', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ anime_name: animeName, anime_id: animeId }),
+        body: JSON.stringify({ anime_name: animeName, anime_id: animeId, anime_description: animeDescription }),
     })
     .then(response => response.json())
     .then(data => {
@@ -201,19 +201,20 @@ document.addEventListener('DOMContentLoaded', function() {
             const card = e.target.closest('.character-card');
             if (card) {
                 const characterName = card.dataset.characterName;
-                selectCharacter(characterName);
+                const characterDescription = card.dataset.characterDescription;
+                selectCharacter(characterName, characterDescription);
             }
         });
     }
 });
 
-function selectCharacter(characterName) {
+function selectCharacter(characterName, characterDescription) {
     fetch('/set_character', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ character_name: characterName }),
+        body: JSON.stringify({ character_name: characterName, character_description: characterDescription }),
     })
     .then(response => response.json())
     .then(data => {
