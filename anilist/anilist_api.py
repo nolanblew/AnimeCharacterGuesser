@@ -53,7 +53,7 @@ def fetch_anime_suggestions(search_term):
 
     return anime_list
 
-def fetch_characters(anime_id):
+def fetch_characters(anime_id, page=1, per_page=25):
     url = 'https://graphql.anilist.co'
     
     try:
@@ -61,12 +61,12 @@ def fetch_characters(anime_id):
             query = file.read()
     except FileNotFoundError:
         logging.error("GraphQL query file for characters not found")
-        return [], ''
+        return [], '', None
 
     variables = {
         'anime_id': anime_id,
-        'page': 1,
-        'per_page': 10
+        'page': page,
+        'per_page': per_page
     }
 
     try:
@@ -77,13 +77,15 @@ def fetch_characters(anime_id):
         logging.error(f"API request failed: {e}")
         if hasattr(e.response, 'text'):
             logging.error(f"Response content: {e.response.text}")
-        return [], ''
+        return [], '', None
 
     characters = []
     anime_description = ''
+    page_info = None
     if data and 'data' in data and 'Media' in data['data']:
         anime_description = clean_html(data['data']['Media']['description']) if data['data']['Media']['description'] else ''
         if 'characters' in data['data']['Media']:
+            page_info = data['data']['Media']['characters']['pageInfo']
             for character in data['data']['Media']['characters']['nodes']:
                 character_info = {
                     'name': character['name']['full'],
@@ -94,4 +96,4 @@ def fetch_characters(anime_id):
     else:
         logging.warning(f"Unexpected API response structure: {json.dumps(data, indent=2)}")
 
-    return characters, anime_description
+    return characters, anime_description, page_info

@@ -33,11 +33,22 @@ def start_game():
 def select_character():
     anime_id = session.get('anime_id')
     anime_name = session.get('anime_name')
+    page = request.args.get('page', 1, type=int)
     if not anime_id or not anime_name:
         return redirect(url_for('index'))
-    characters, anime_description = fetch_characters(anime_id)
+    characters, anime_description, page_info = fetch_characters(anime_id, page)
     session['anime_description'] = anime_description
-    return render_template('select_character.html', characters=characters, anime_name=anime_name)
+    return render_template('select_character.html', characters=characters, anime_name=anime_name, page_info=page_info, current_page=page)
+
+@app.route('/load_more_characters')
+def load_more_characters():
+    anime_id = session.get('anime_id')
+    page = request.args.get('page', 1, type=int)
+    characters, _, page_info = fetch_characters(anime_id, page)
+    return jsonify({
+        'characters': characters,
+        'page_info': page_info
+    })
 
 @app.route('/set_character', methods=['POST'])
 def set_character():

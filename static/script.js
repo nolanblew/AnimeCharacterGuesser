@@ -200,6 +200,8 @@ function startGame(animeName, animeId, animeDescription) {
 
 document.addEventListener('DOMContentLoaded', function() {
     const characterGrid = document.getElementById('character-grid');
+    const loadMoreButton = document.getElementById('load-more');
+
     if (characterGrid) {
         characterGrid.addEventListener('click', function(e) {
             const card = e.target.closest('.character-card');
@@ -210,7 +212,49 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+
+    if (loadMoreButton) {
+        loadMoreButton.addEventListener('click', function() {
+            const nextPage = parseInt(loadMoreButton.dataset.nextPage);
+            loadMoreCharacters(nextPage);
+        });
+    }
 });
+
+function loadMoreCharacters(page) {
+    fetch(`/load_more_characters?page=${page}`)
+        .then(response => response.json())
+        .then(data => {
+            const characterGrid = document.getElementById('character-grid');
+            const loadMoreButton = document.getElementById('load-more');
+
+            data.characters.forEach(character => {
+                const characterCard = createCharacterCard(character);
+                characterGrid.appendChild(characterCard);
+            });
+
+            if (data.page_info.hasNextPage) {
+                loadMoreButton.dataset.nextPage = page + 1;
+            } else {
+                loadMoreButton.style.display = 'none';
+            }
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+function createCharacterCard(character) {
+    const col = document.createElement('div');
+    col.className = 'col';
+    col.innerHTML = `
+        <div class="card h-100 character-card" data-character-name="${character.name}" data-character-description="${character.description}">
+            <img src="${character.image}" class="card-img-top" alt="${character.name}">
+            <div class="card-body">
+                <h5 class="card-title text-center">${character.name}</h5>
+            </div>
+        </div>
+    `;
+    return col;
+}
 
 function selectCharacter(characterName, characterDescription) {
     fetch('/set_character', {
