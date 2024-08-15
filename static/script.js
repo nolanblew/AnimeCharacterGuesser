@@ -218,7 +218,10 @@ function selectCharacter(characterName, characterDescription) {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ character_name: characterName, character_description: characterDescription }),
+        body: JSON.stringify({ 
+            character_name: characterName, 
+            character_description: characterDescription || '' // Provide a default empty string if characterDescription is undefined
+        }),
     })
     .then(response => response.json())
     .then(data => {

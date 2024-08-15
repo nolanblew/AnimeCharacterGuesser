@@ -41,7 +41,7 @@ def select_character():
 @app.route('/set_character', methods=['POST'])
 def set_character():
     character_name = request.json['character_name']
-    character_description = request.json['character_description']
+    character_description = request.json.get('character_description', '')  # Use get() with a default value
     session['character_name'] = character_name
     session['character_description'] = character_description
     session['conversation_history'] = []
