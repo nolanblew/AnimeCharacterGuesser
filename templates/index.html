@@ -10,20 +10,22 @@
 </head>
 <body class="bg-light">
     <div class="container-fluid min-vh-100 d-flex align-items-center justify-content-center">
-        <div class="card shadow-lg rounded-4 p-3">
-            <div class="card-body text-center">
-                <h1 class="mb-3">Character Guesser</h1>
-                <div class="mb-3 position-relative">
-                    <div class="input-group mb-3">
-                        <input type="text" class="form-control" id="anime-search" placeholder="Search for an anime or TV show...">
-                        <button class="btn btn-outline-secondary d-flex align-items-center justify-content-center" type="button" id="clear-anime" style="display: none;">
-                            <i data-feather="x"></i>
-                        </button>
-                    </div>
-                    <ul class="list-group position-absolute w-100" id="anime-suggestions" style="display: none; z-index: 1000;"></ul>
-                    <button class="btn btn-primary w-100" id="start-game" disabled>Select Characters</button>
-                    <div class="spinner-border text-primary mt-3" role="status" id="spinner" style="display: none;">
-                        <span class="visually-hidden">Loading...</span>
+        <div class="content-wrapper">
+            <div class="card shadow-lg rounded-4 p-3">
+                <div class="card-body text-center">
+                    <h1 class="mb-3">Character Guesser</h1>
+                    <div class="mb-3 position-relative">
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" id="anime-search" placeholder="Search for an anime or TV show...">
+                            <button class="btn btn-outline-secondary d-flex align-items-center justify-content-center" type="button" id="clear-anime" style="display: none;">
+                                <i data-feather="x"></i>
+                            </button>
+                        </div>
+                        <ul class="list-group position-absolute w-100" id="anime-suggestions" style="display: none; z-index: 1000;"></ul>
+                        <button class="btn btn-primary w-100" id="start-game" disabled>Select Characters</button>
+                        <div class="spinner-border text-primary mt-3" role="status" id="spinner" style="display: none;">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
                     </div>
                 </div>
             </div>
