@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (startGameButton && animeInput && animeSuggestions && spinner && clearButton) {
         let selectedAnime = '';
+        let selectedAnimeId = null;
 
         animeInput.addEventListener('input', debounce(function(event) {
             const searchTerm = event.target.value.trim();
@@ -37,6 +38,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const li = e.target.closest('li');
             if (li) {
                 selectedAnime = li.querySelector('h6').textContent;
+                selectedAnimeId = li.dataset.animeId;
                 animeInput.value = selectedAnime;
                 animeInput.readOnly = true;
                 animeSuggestions.style.display = 'none';
@@ -49,6 +51,7 @@ document.addEventListener('DOMContentLoaded', function() {
             animeInput.value = '';
             animeInput.readOnly = false;
             selectedAnime = '';
+            selectedAnimeId = null;
             startGameButton.disabled = true;
             clearButton.style.display = 'none';
             animeInput.focus();
@@ -67,8 +70,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         startGameButton.addEventListener('click', function() {
-            if (selectedAnime) {
-                startGame(selectedAnime);
+            if (selectedAnime && selectedAnimeId) {
+                startGame(selectedAnime, selectedAnimeId);
                 // Disable input and button, show spinner
                 animeInput.disabled = true;
                 startGameButton.disabled = true;
