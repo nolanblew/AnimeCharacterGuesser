@@ -72,7 +72,9 @@ def send_message():
     # Add user message to conversation history
     conversation_history.append({"role": "user", "content": user_message})
     
-    response_json = get_character_response(user_message, anime_name, character_name, conversation_history)
+    anime_description = session.get('anime_description', '')
+    character_description = session.get('character_description', '')
+    response_json = get_character_response(user_message, anime_name, character_name, conversation_history, anime_description, character_description)
     
     if response_json:
         response_data = json.loads(response_json)
