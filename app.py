@@ -23,7 +23,7 @@ def chat():
 def start_game():
     anime_name = request.json['anime_name']
     anime_id = request.json['anime_id']
-    anime_description = request.json['anime_description']
+    anime_description = request.json.get('anime_description', '')  # Use get() with a default value
     session['anime_name'] = anime_name
     session['anime_id'] = anime_id
     session['anime_description'] = anime_description

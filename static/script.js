@@ -181,7 +181,11 @@ function startGame(animeName, animeId, animeDescription) {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ anime_name: animeName, anime_id: animeId, anime_description: animeDescription }),
+        body: JSON.stringify({ 
+            anime_name: animeName, 
+            anime_id: animeId, 
+            anime_description: animeDescription || ''  // Provide a default empty string if animeDescription is undefined
+        }),
     })
     .then(response => response.json())
     .then(data => {
