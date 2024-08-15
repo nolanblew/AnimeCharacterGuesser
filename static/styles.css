@@ -34,12 +34,17 @@ h1 {
 }
 
 .chat-container {
-    height: calc(100vh - 200px);
+    height: calc(100vh - 250px);
     border: 1px solid #dee2e6;
     border-radius: 0.25rem;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
+}
+
+.sticky-bottom {
+    position: sticky;
+    bottom: 0;
+    z-index: 1020;
 }
 
 .chat-messages {

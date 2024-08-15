@@ -309,11 +309,11 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function addMessage(sender, message) {
-    const chatContainer = document.querySelector('.chat-container');
+    const chatMessages = document.querySelector('.chat-messages');
     const messageElement = document.createElement('div');
     messageElement.classList.add('message', sender);
     messageElement.textContent = message;
-    chatContainer.appendChild(messageElement);
+    chatMessages.appendChild(messageElement);
     scrollToBottom();
 }
 
@@ -396,8 +396,8 @@ function removeTypingIndicator(typingIndicator) {
 }
 
 function scrollToBottom() {
-    const chatContainer = document.querySelector('.chat-container');
-    chatContainer.scrollTop = chatContainer.scrollHeight;
+    const chatMessages = document.querySelector('.chat-messages');
+    chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 // Add this function at the end of the file
 function handleVirtualKeyboard() {

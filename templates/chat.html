@@ -8,8 +8,8 @@
     <script src="https://unpkg.com/feather-icons"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
-<body class="bg-light">
-    <div class="container-fluid min-vh-100 d-flex flex-column">
+<body class="bg-light d-flex flex-column min-vh-100">
+    <div class="container-fluid flex-grow-1 d-flex flex-column">
         <div class="row flex-grow-1">
             <div class="col-md-8 col-lg-6 mx-auto d-flex flex-column">
                 <h1 class="text-center my-3">Character Guesser</h1>
@@ -18,7 +18,13 @@
                         <!-- Chat messages will be dynamically added here -->
                     </div>
                 </div>
-                <div class="input-group mb-3">
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid sticky-bottom py-3 bg-light">
+        <div class="row">
+            <div class="col-md-8 col-lg-6 mx-auto">
+                <div class="input-group">
                     <textarea class="form-control" id="user-input" rows="1" placeholder="Type your message..."></textarea>
                     <button class="btn btn-primary d-flex align-items-center justify-content-center" id="send-message">
                         <i data-feather="send"></i>
