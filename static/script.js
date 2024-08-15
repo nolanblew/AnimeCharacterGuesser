@@ -399,3 +399,25 @@ function scrollToBottom() {
     const chatContainer = document.querySelector('.chat-container');
     chatContainer.scrollTop = chatContainer.scrollHeight;
 }
+// Add this function at the end of the file
+function handleVirtualKeyboard() {
+    const vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+
+    window.addEventListener('resize', () => {
+        let vh = window.innerHeight * 0.01;
+        document.documentElement.style.setProperty('--vh', `${vh}px`);
+    });
+
+    const userInput = document.getElementById('user-input');
+    if (userInput) {
+        userInput.addEventListener('focus', () => {
+            setTimeout(() => {
+                window.scrollTo(0, document.body.scrollHeight);
+            }, 300);
+        });
+    }
+}
+
+// Call this function when the DOM is loaded
+document.addEventListener('DOMContentLoaded', handleVirtualKeyboard);
