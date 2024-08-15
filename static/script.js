@@ -313,7 +313,7 @@ function addMessage(sender, message) {
     const messageElement = document.createElement('div');
     messageElement.classList.add('message', sender);
     messageElement.textContent = message;
-    chatMessages.appendChild(messageElement);
+    chatMessages.insertBefore(messageElement, chatMessages.firstChild);
     scrollToBottom();
 }
 
@@ -397,7 +397,7 @@ function removeTypingIndicator(typingIndicator) {
 
 function scrollToBottom() {
     const chatMessages = document.querySelector('.chat-messages');
-    chatMessages.scrollTop = chatMessages.scrollHeight;
+    chatMessages.scrollTop = 0;
 }
 // Add this function at the end of the file
 function handleVirtualKeyboard() {
@@ -407,13 +407,14 @@ function handleVirtualKeyboard() {
     window.addEventListener('resize', () => {
         let vh = window.innerHeight * 0.01;
         document.documentElement.style.setProperty('--vh', `${vh}px`);
+        scrollToBottom();
     });
 
     const userInput = document.getElementById('user-input');
     if (userInput) {
         userInput.addEventListener('focus', () => {
             setTimeout(() => {
-                window.scrollTo(0, document.body.scrollHeight);
+                scrollToBottom();
             }, 300);
         });
     }
