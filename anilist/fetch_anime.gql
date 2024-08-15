@@ -1,0 +1,20 @@
+query($search_term:String!, $page:Int = 1, $per_page:Int = 5) {
+  Page(page: $page, perPage: $per_page) {
+    pageInfo {
+      total
+    }
+    media(search: $search_term, type: ANIME, format_in: [TV, MOVIE]) {
+      id
+      title {
+        english
+        romaji
+      }
+      coverImage {
+        medium
+      }
+      season
+      seasonYear
+      format
+    }
+  }
+}

@@ -1,0 +1,22 @@
+query($anime_id:Int!, $page:Int = 1, $per_page:Int = 10) {
+  Media(id: $anime_id) {
+    characters(page: $page, perPage:$per_page, sort:FAVOURITES_DESC) {
+      pageInfo{
+        total
+        currentPage
+        hasNextPage
+      }
+      nodes {
+        name {
+          full
+        }
+        gender
+        age
+        description
+        image {
+          medium
+        }
+      }
+    }
+  }
+}
