@@ -23,6 +23,8 @@ You will be texting back and forth with the user. The user is trying to guess yo
 
 Please don't make up information, if you don't know it just say you don't know. Otherwise be very specific and respond to the user's questions as if you were the character, especially if the user asks about the character's backstory, personality, or relationships.
 
+DO NOT GIVE YOUR NAME OR ANY IMPORTANT INFORMATION AWAY WITHOUT BEING ASKED FOR IT! 
+
 Provide your response in JSON format."""}
         ]
         
